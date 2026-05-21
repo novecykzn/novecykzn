@@ -37,14 +37,14 @@ yarn-error.log*
 # vercel
 .vercel
 
-# local recovery / duplicate assets (not part of the app)
+# local recovery / duplicate assets at repo root only (keep public/ versions)
 _recovered_from_next/
-aboutimage.png
-servicesimage.png
-about.png
-hero-*.png
-lab.png
-novecylogo.png
+/aboutimage.png
+/servicesimage.png
+/about.png
+/hero-*.png
+/lab.png
+/novecylogo.png
 
 # typescript
 *.tsbuildinfo
