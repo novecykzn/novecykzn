@@ -115,7 +115,7 @@ export default async function AdminOrdersPage() {
 
   return (
     <div>
-      <h1 className="text-3xl font-semibold tracking-tight text-[#234467]">Orders tracking</h1>
+      <h1 className="text-2xl font-semibold tracking-tight text-[#234467] sm:text-3xl">Orders tracking</h1>
       <p className="mt-2 text-sm text-[#6d6e71]">
         All submitted orders appear here automatically — including EFT orders awaiting proof of
         payment. Update EFT payment status when POP is emailed, then pack once paid.
@@ -152,27 +152,27 @@ export default async function AdminOrdersPage() {
           return (
             <section
               key={o.id}
-              className={`rounded-2xl border bg-white p-5 shadow-sm ${
+              className={`rounded-2xl border bg-white p-4 shadow-sm sm:p-5 ${
                 isEft && (o.payment_status === "awaiting_eft" || o.payment_status === "pop_received")
                   ? "border-[#f5e6c8] ring-1 ring-[#fde68a]"
                   : "border-[#e0dedf]"
               }`}
             >
-              <div className="flex flex-wrap items-start justify-between gap-4 border-b border-[#eef0f1] pb-4">
-                <div>
-                  <p className="font-mono text-xs text-[#8c8d91]">Order {orderId}</p>
+              <div className="flex flex-col gap-4 border-b border-[#eef0f1] pb-4 sm:flex-row sm:items-start sm:justify-between">
+                <div className="min-w-0">
+                  <p className="break-all font-mono text-xs text-[#8c8d91]">Order {orderId}</p>
                   <h2 className="mt-1 text-lg font-semibold text-[#234467]">
                     {profile?.company_name ?? profile?.full_name ?? "Unknown professional"}
                   </h2>
                   <p className="text-sm text-[#6d6e71]">{profile?.email ?? "No email on profile"}</p>
                   {profile?.phone ? <p className="text-sm text-[#6d6e71]">Phone: {profile.phone}</p> : null}
                 </div>
-                <div className="space-y-2 text-right">
+                <div className="space-y-2 sm:text-right">
                   <p className="text-xs text-[#8c8d91]">
                     {o.created_at ? new Date(o.created_at).toLocaleString() : "—"}
                   </p>
                   <p className="text-xl font-semibold text-[#234467]">{formatZar(o.total_cents ?? 0)}</p>
-                  <div className="flex flex-wrap justify-end gap-2">
+                  <div className="flex flex-wrap gap-2 sm:justify-end">
                     <span className="rounded-full bg-[#e6f7fd] px-2.5 py-1 text-xs font-medium capitalize text-[#0077aa]">
                       {o.status}
                     </span>
@@ -214,7 +214,7 @@ export default async function AdminOrdersPage() {
                       href={scriptHref}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex rounded-full bg-[#00a4e4] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0090c8]"
+                      className="inline-flex w-full items-center justify-center rounded-full bg-[#00a4e4] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0090c8] sm:w-auto"
                     >
                       View signed script PDF
                     </a>
@@ -330,7 +330,7 @@ export default async function AdminOrdersPage() {
                     />
                   </label>
                 </div>
-                <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                   <p className="text-xs text-[#6d6e71]">
                     {o.packed_at
                       ? `Packed on ${new Date(o.packed_at).toLocaleString()}`
@@ -338,7 +338,7 @@ export default async function AdminOrdersPage() {
                   </p>
                   <button
                     type="submit"
-                    className="rounded-full bg-[#00a4e4] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0090c8]"
+                    className="w-full rounded-full bg-[#00a4e4] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0090c8] sm:w-auto"
                   >
                     Save tracking and email professional
                   </button>

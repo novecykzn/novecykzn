@@ -45,7 +45,7 @@ export default async function AdminApplicationDetailPage({
       <Link href="/admin" className="text-sm font-medium text-[#00a4e4] hover:underline">
         ← Back to list
       </Link>
-      <h1 className="mt-6 text-3xl font-semibold tracking-tight text-[#234467]">{app.full_name}</h1>
+      <h1 className="mt-4 text-2xl font-semibold tracking-tight text-[#234467] sm:mt-6 sm:text-3xl">{app.full_name}</h1>
       <p className="text-sm text-[#6d6e71]">{app.company_name}</p>
 
       <dl className="mt-8 grid gap-4 text-sm sm:grid-cols-2">

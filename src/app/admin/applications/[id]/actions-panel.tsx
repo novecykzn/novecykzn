@@ -90,7 +90,7 @@ export function ApplicationActions({
   }
 
   return (
-    <div className="mt-10 rounded-2xl border border-[#e0dedf] bg-white p-6 shadow-sm">
+    <div className="mt-8 rounded-2xl border border-[#e0dedf] bg-white p-4 shadow-sm sm:mt-10 sm:p-6">
       <h2 className="text-sm font-semibold uppercase tracking-wide text-[#0077aa]">Decision</h2>
       <p className="mt-2 text-xs text-[#6d6e71]">
         Current status:{" "}
@@ -114,12 +114,12 @@ export function ApplicationActions({
         </label>
       ) : null}
 
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-3">
         <button
           type="button"
           disabled={busy || currentStatus === "approved"}
           onClick={onApprove}
-          className="rounded-full bg-[#00a4e4] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#0090c8] disabled:opacity-50"
+          className="w-full rounded-full bg-[#00a4e4] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#0090c8] disabled:opacity-50 sm:w-auto"
         >
           Approve &amp; invite
         </button>
@@ -127,7 +127,7 @@ export function ApplicationActions({
           type="button"
           disabled={busy}
           onClick={() => onStatus("needs_more_info")}
-          className="rounded-full border border-[#d8d8d8] bg-white px-4 py-2 text-sm font-medium text-[#234467] transition-colors hover:border-[#00a4e4] hover:text-[#00a4e4]"
+          className="w-full rounded-full border border-[#d8d8d8] bg-white px-4 py-2.5 text-sm font-medium text-[#234467] transition-colors hover:border-[#00a4e4] hover:text-[#00a4e4] sm:w-auto"
         >
           Needs more info
         </button>
@@ -135,7 +135,7 @@ export function ApplicationActions({
           type="button"
           disabled={busy}
           onClick={() => onStatus("pending")}
-          className="rounded-full border border-[#d8d8d8] bg-white px-4 py-2 text-sm font-medium text-[#234467] transition-colors hover:border-[#00a4e4] hover:text-[#00a4e4]"
+          className="w-full rounded-full border border-[#d8d8d8] bg-white px-4 py-2.5 text-sm font-medium text-[#234467] transition-colors hover:border-[#00a4e4] hover:text-[#00a4e4] sm:w-auto"
         >
           Mark pending
         </button>
@@ -181,7 +181,7 @@ export function ApplicationActions({
           type="button"
           disabled={busy}
           onClick={onReject}
-          className="mt-2 rounded-full border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-800"
+          className="mt-2 w-full rounded-full border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-800 sm:w-auto"
         >
           Reject application
         </button>
@@ -200,7 +200,7 @@ export function ApplicationActions({
           type="button"
           disabled={busy}
           onClick={onSaveNotes}
-          className="mt-2 rounded-full bg-[#234467] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#1b3654]"
+          className="mt-2 w-full rounded-full bg-[#234467] px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-[#1b3654] sm:w-auto"
         >
           Save notes
         </button>
