@@ -27,6 +27,14 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             <Link href="/" className="hover:text-[#0c4a6e]">
               Public site
             </Link>
+            <form action="/auth/sign-out" method="post">
+              <button
+                type="submit"
+                className="rounded-full border border-[#d8d8d8] px-3 py-1.5 text-xs font-semibold text-[#234467] transition hover:border-[#00a4e4] hover:text-[#00a4e4]"
+              >
+                Sign out
+              </button>
+            </form>
           </nav>
         </div>
       </header>
