@@ -55,7 +55,7 @@ export default async function CartPage({
   return (
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#5f8f37]">Novecy CP KZN</p>
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[#234467]">Cart</h1>
+      <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#234467] sm:text-3xl">Cart</h1>
       <p className="mt-2 text-sm text-[#6d6e71]">
         Review your order, upload a signed script, then choose how you would like to pay.
       </p>
@@ -93,7 +93,7 @@ export default async function CartPage({
             <ShippingAddressNotice contactEmail={contactEmail} addressLine={addressLine} />
           </div>
           <div className="mt-8 border-t border-[#e0dedf] pt-6">
-            <p className="text-lg font-semibold text-[#234467]">
+            <p className="text-base font-semibold text-[#234467] sm:text-lg">
               Estimated total {formatZar(order?.total_cents ?? 0)}{" "}
               <span className="text-sm font-normal text-[#6d6e71]">
                 incl. ex VAT per your contract

@@ -109,7 +109,7 @@ export function CartCheckout({
 
       <button
         type="submit"
-        className="mt-6 rounded-full bg-[#00a4e4] px-6 py-3 text-sm font-semibold text-white hover:bg-[#0090c8]"
+        className="mt-6 w-full rounded-full bg-[#00a4e4] px-6 py-3 text-sm font-semibold text-white hover:bg-[#0090c8] sm:w-auto"
       >
         {method === "online"
           ? "Continue to online payment"

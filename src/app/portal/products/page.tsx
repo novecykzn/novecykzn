@@ -136,7 +136,7 @@ export default async function ProductsPage({
   return (
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#5f8f37]">Novecy CP KZN</p>
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[#234467]">Product catalogue</h1>
+      <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#234467] sm:text-3xl">Product catalogue</h1>
       <p className="mt-2 text-sm text-[#6d6e71]">
         Professional order list — availability and pricing for registered accounts only.
       </p>
@@ -184,7 +184,7 @@ export default async function ProductsPage({
         </label>
         <button
           type="submit"
-          className="rounded-full bg-[#00a4e4] px-4 py-2 text-sm font-semibold text-white hover:bg-[#0090c8]"
+          className="w-full rounded-full bg-[#00a4e4] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0090c8] sm:w-auto"
         >
           Apply
         </button>
@@ -193,7 +193,7 @@ export default async function ProductsPage({
         {list.map((p) => (
           <div
             key={`${p.category}-${p.name}`}
-            className="flex flex-col gap-4 rounded-2xl border border-[#e0dedf] bg-white p-6 shadow-sm sm:flex-row sm:justify-between"
+            className="flex flex-col gap-4 rounded-2xl border border-[#e0dedf] bg-white p-4 shadow-sm sm:flex-row sm:justify-between sm:p-6"
           >
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-[#8c8d91]">
@@ -221,7 +221,7 @@ export default async function ProductsPage({
                 ) : null}
               </dl>
             </div>
-            <div className="flex flex-col items-start gap-3 border-t border-[#eef0f1] pt-4 sm:border-0 sm:pt-0 sm:pl-6">
+            <div className="flex w-full flex-col items-stretch gap-3 border-t border-[#eef0f1] pt-4 sm:w-auto sm:items-start sm:border-0 sm:pt-0 sm:pl-6">
               <AddLineForm
                 variants={p.variants}
                 disabled={!p.variants.some((v) => v.available)}

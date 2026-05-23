@@ -40,7 +40,7 @@ export function AddLineForm({
     : "Price on request";
 
   return (
-    <div className="w-full max-w-xs">
+    <div className="w-full sm:max-w-xs">
       <p className="text-lg font-semibold text-[#234467]">{priceText}</p>
       <div className="space-y-2">
         <label className="text-xs text-[#6d6e71]">Select strength / size</label>

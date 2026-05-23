@@ -45,36 +45,40 @@ function Line({ item }: { item: Item }) {
   }
 
   return (
-    <li className="flex flex-col gap-3 rounded-2xl border border-[#e0dedf] bg-white px-4 py-3 shadow-sm sm:flex-row sm:items-center sm:justify-between">
-      <div>
+    <li className="flex flex-col gap-3 rounded-2xl border border-[#e0dedf] bg-white px-4 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:py-3">
+      <div className="min-w-0">
         <p className="font-medium text-[#234467]">{item.name}</p>
         <p className="text-xs text-[#8c8d91]">Unit {formatZar(item.unit)}</p>
       </div>
-      <div className="flex flex-wrap items-center gap-3">
-        <input
-          type="number"
-          min={1}
-          value={qty}
-          onChange={(e) => setQty(Number(e.target.value))}
-          className="w-16 rounded border border-[#d8d8d8] px-2 py-1 text-sm"
-        />
-        <button
-          type="button"
-          disabled={busy}
-          onClick={saveQty}
-          className="text-sm font-medium text-[#00a4e4] hover:underline"
-        >
-          Update
-        </button>
-        <p className="text-sm font-semibold text-[#234467]">{formatZar(item.total)}</p>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={remove}
-          className="text-sm text-red-700 hover:underline"
-        >
-          Remove
-        </button>
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#eef0f1] pt-3 sm:justify-end sm:border-0 sm:pt-0">
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            min={1}
+            value={qty}
+            onChange={(e) => setQty(Number(e.target.value))}
+            className="w-16 rounded border border-[#d8d8d8] px-2 py-1.5 text-sm"
+          />
+          <button
+            type="button"
+            disabled={busy}
+            onClick={saveQty}
+            className="rounded-full border border-[#d8d8d8] px-3 py-1.5 text-sm font-medium text-[#234467] hover:border-[#00a4e4] hover:text-[#00a4e4]"
+          >
+            Update
+          </button>
+        </div>
+        <div className="flex items-center gap-3">
+          <p className="text-sm font-semibold text-[#234467]">{formatZar(item.total)}</p>
+          <button
+            type="button"
+            disabled={busy}
+            onClick={remove}
+            className="text-sm text-red-700 hover:underline"
+          >
+            Remove
+          </button>
+        </div>
       </div>
     </li>
   );

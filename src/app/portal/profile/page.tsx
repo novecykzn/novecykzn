@@ -13,9 +13,9 @@ export default async function ProfilePage() {
   return (
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#5f8f37]">Novecy CP KZN</p>
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[#234467]">Profile</h1>
+      <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#234467] sm:text-3xl">Profile</h1>
       <p className="mt-2 text-sm text-[#6d6e71]">Practice details linked to your approved account.</p>
-      <dl className="mt-8 grid gap-4 rounded-2xl border border-[#e0dedf] bg-white p-6 text-sm shadow-sm sm:max-w-md">
+      <dl className="mt-6 grid gap-4 rounded-2xl border border-[#e0dedf] bg-white p-4 text-sm shadow-sm sm:mt-8 sm:max-w-md sm:p-6">
         <div>
           <dt className="text-[#8c8d91]">Full name</dt>
           <dd className="font-medium text-[#234467]">{profile?.full_name ?? "—"}</dd>

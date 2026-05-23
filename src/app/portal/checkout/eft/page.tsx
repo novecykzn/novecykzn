@@ -42,7 +42,7 @@ export default async function CheckoutEftPage({
 
   return (
     <div className="mx-auto max-w-xl">
-      <div className="rounded-2xl border border-[#bbf7d0] bg-[#f0fdf4] p-8 shadow-sm">
+      <div className="rounded-2xl border border-[#bbf7d0] bg-[#f0fdf4] p-5 shadow-sm sm:p-8">
         <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#166534]">Order received</p>
         <h1 className="mt-2 text-2xl font-semibold text-[#234467]">Thank you for your order</h1>
         <p className="mt-4 text-sm leading-relaxed text-[#335d1f]">
@@ -76,10 +76,10 @@ export default async function CheckoutEftPage({
         />
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-4">
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
         <Link
           href="/portal/orders"
-          className="rounded-full bg-[#00a4e4] px-4 py-2 text-sm font-semibold text-white"
+          className="inline-flex w-full items-center justify-center rounded-full bg-[#00a4e4] px-4 py-2.5 text-sm font-semibold text-white sm:w-auto"
         >
           View order history
         </Link>

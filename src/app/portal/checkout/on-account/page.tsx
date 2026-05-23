@@ -39,7 +39,7 @@ export default async function CheckoutOnAccountPage({
     : null;
 
   return (
-    <div className="mx-auto max-w-lg rounded-2xl border border-[#dce9c9] bg-[#fbfdf6] p-6 shadow-sm">
+    <div className="mx-auto max-w-lg rounded-2xl border border-[#dce9c9] bg-[#fbfdf6] p-5 shadow-sm sm:p-6">
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#5f8f37]">On account</p>
       <h1 className="mt-2 text-2xl font-semibold text-[#234467]">Order submitted</h1>
       <p className="mt-3 text-sm leading-relaxed text-[#6d6e71]">
@@ -54,10 +54,10 @@ export default async function CheckoutOnAccountPage({
         <ShippingAddressNotice contactEmail={contactEmail} addressLine={addressLine} />
       </div>
 
-      <div className="mt-8 flex flex-wrap gap-4">
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
         <Link
           href="/portal/orders"
-          className="rounded-full bg-[#00a4e4] px-4 py-2 text-sm font-semibold text-white"
+          className="inline-flex w-full items-center justify-center rounded-full bg-[#00a4e4] px-4 py-2.5 text-sm font-semibold text-white sm:w-auto"
         >
           View orders
         </Link>

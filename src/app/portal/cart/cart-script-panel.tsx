@@ -76,8 +76,8 @@ export function CartScriptPanel({
   }
 
   return (
-    <section className="mt-8 rounded-2xl border border-[#c5e3f5] bg-[#f0f9fd] p-6 shadow-sm">
-      <h2 className="text-lg font-semibold text-[#234467]">Signed order script (required)</h2>
+    <section className="mt-6 rounded-2xl border border-[#c5e3f5] bg-[#f0f9fd] p-4 shadow-sm sm:mt-8 sm:p-6">
+      <h2 className="text-base font-semibold text-[#234467] sm:text-lg">Signed order script (required)</h2>
       <p className="mt-2 text-sm leading-relaxed text-[#6d6e71]">
         Novecy can only process orders with an official signed script. Download your order PDF
         (including your practice details from your application), sign it, then upload the signed
@@ -115,7 +115,7 @@ export function CartScriptPanel({
         <button
           type="submit"
           disabled={uploading}
-          className="rounded-full border border-[#00a4e4] bg-white px-5 py-2.5 text-sm font-semibold text-[#00a4e4] hover:bg-[#e6f7fd] disabled:opacity-60"
+          className="w-full rounded-full border border-[#00a4e4] bg-white px-5 py-2.5 text-sm font-semibold text-[#00a4e4] hover:bg-[#e6f7fd] disabled:opacity-60 sm:w-auto"
         >
           {uploading ? "Uploading…" : hasSigned ? "Replace signed PDF" : "Upload signed PDF"}
         </button>

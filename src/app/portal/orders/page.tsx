@@ -23,9 +23,48 @@ export default async function OrdersHistoryPage() {
   return (
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#5f8f37]">Novecy CP KZN</p>
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight text-[#234467]">Order history</h1>
+      <h1 className="mt-2 text-2xl font-semibold tracking-tight text-[#234467] sm:text-3xl">Order history</h1>
       <p className="mt-2 text-sm text-[#6d6e71]">Statuses update when payment and fulfilment events occur.</p>
-      <div className="mt-8 overflow-x-auto rounded-2xl border border-[#e0dedf] bg-white shadow-sm">
+
+      <div className="mt-6 space-y-3 md:hidden">
+        {(orders ?? []).map((o) => (
+          <article
+            key={o.id}
+            className="rounded-2xl border border-[#e0dedf] bg-white p-4 shadow-sm"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="font-mono text-xs text-[#8c8d91]">{String(o.id).slice(0, 8)}…</p>
+                <p className="mt-1 text-lg font-semibold text-[#234467]">{formatZar(o.total_cents ?? 0)}</p>
+              </div>
+              <span className="shrink-0 rounded-full bg-[#e6f7fd] px-2.5 py-1 text-xs font-medium capitalize text-[#0077aa]">
+                {o.status}
+              </span>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="rounded-full bg-[#f2f4f5] px-2.5 py-1 text-xs font-medium text-[#5c6b7a]">
+                {formatPaymentStatus(o.payment_status as string)}
+              </span>
+              <span className="rounded-full bg-[#f0fdf4] px-2.5 py-1 text-xs font-medium text-[#166534]">
+                {formatPaymentMethod(o.payment_method as string)}
+              </span>
+            </div>
+            <p className="mt-3 text-xs text-[#8c8d91]">
+              {o.created_at ? new Date(o.created_at).toLocaleString() : "—"}
+            </p>
+          </article>
+        ))}
+        {(!orders || orders.length === 0) && (
+          <p className="rounded-2xl border border-[#e0dedf] bg-white px-4 py-8 text-center text-sm text-[#8c8d91]">
+            No submitted orders.{" "}
+            <Link href="/portal/products" className="text-[#00a4e4] underline">
+              Start an order
+            </Link>
+          </p>
+        )}
+      </div>
+
+      <div className="mt-6 hidden overflow-x-auto rounded-2xl border border-[#e0dedf] bg-white shadow-sm md:block md:mt-8">
         <table className="min-w-full text-left text-sm">
           <thead className="border-b border-[#e0dedf] bg-[#f7f9fb] text-xs font-semibold uppercase tracking-wide text-[#6d6e71]">
             <tr>
