@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
@@ -11,6 +12,7 @@ export function LoginForm({
   nextPath?: string;
   disabled?: boolean;
 }) {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,14 +23,39 @@ export function LoginForm({
     if (disabled || !isSupabaseConfigured()) return;
     setLoading(true);
     setMessage(null);
-    const supabase = createClient();
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    setLoading(false);
-    if (error) {
-      setMessage(error.message);
-      return;
+
+    try {
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        setMessage(error.message);
+        return;
+      }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", data.user.id)
+        .maybeSingle();
+
+      router.refresh();
+
+      const destination =
+        nextPath?.startsWith("/")
+          ? nextPath
+          : profile?.role === "admin"
+            ? "/admin"
+            : profile?.role === "provider"
+              ? "/portal"
+              : "/pending";
+
+      router.push(destination);
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : "Sign-in failed. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    window.location.href = nextPath?.startsWith("/") ? nextPath : "/portal";
   }
 
   return (
