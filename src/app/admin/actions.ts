@@ -3,8 +3,15 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/auth/session";
 import { sendApprovalInvite, sendOrderPackedNotification, sendRejection } from "@/lib/email/resend";
-import { randomBytes } from "crypto";
 import { revalidatePath } from "next/cache";
+
+function passwordFromFullName(fullName: string) {
+  const first = (fullName.trim().split(/\s+/)[0] || "User").replace(/[^a-zA-Z0-9]/g, "");
+  const namePart = first
+    ? first.charAt(0).toUpperCase() + first.slice(1).toLowerCase()
+    : "User";
+  return `${namePart}123!`;
+}
 
 export async function approveApplication(
   applicationId: string,
@@ -26,6 +33,7 @@ export async function approveApplication(
   }
 
   const email = app.email as string;
+  const password = passwordFromFullName((app.full_name as string) || "User");
 
   let userId: string | null = null;
 
@@ -37,8 +45,16 @@ export async function approveApplication(
 
   if (existingProfile?.id) {
     userId = existingProfile.id;
+    const { error: updErr } = await admin.auth.admin.updateUserById(userId, {
+      password,
+      email_confirm: true,
+      user_metadata: { full_name: app.full_name },
+    });
+    if (updErr) {
+      console.error(updErr);
+      throw new Error(updErr.message ?? "Could not update user password");
+    }
   } else {
-    const password = randomBytes(18).toString("base64url");
     const { data: created, error: creErr } = await admin.auth.admin.createUser({
       email,
       password,
@@ -51,7 +67,18 @@ export async function approveApplication(
         .select("id")
         .eq("email", email)
         .maybeSingle();
-      if (again?.id) userId = again.id;
+      if (again?.id) {
+        userId = again.id;
+        const { error: updErr } = await admin.auth.admin.updateUserById(userId, {
+          password,
+          email_confirm: true,
+          user_metadata: { full_name: app.full_name },
+        });
+        if (updErr) {
+          console.error(updErr);
+          throw new Error(updErr.message ?? "Could not update user password");
+        }
+      }
     } else if (creErr || !created?.user) {
       console.error(creErr);
       throw new Error(creErr?.message ?? "Could not create user");
@@ -93,18 +120,12 @@ export async function approveApplication(
     })
     .eq("id", applicationId);
 
-  const { data: linkData } = await admin.auth.admin.generateLink({
-    type: "recovery",
-    email,
-  });
-
-  const inviteLink =
-    linkData?.properties?.action_link ?? `${process.env.NEXT_PUBLIC_SITE_URL ?? ""}/auth/login`;
-
+  const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://novecykzn.com").replace(/\/$/, "");
   await sendApprovalInvite({
     email,
     name: app.full_name,
-    inviteLink,
+    password,
+    loginUrl: `${siteUrl}/auth/login`,
   });
 
   revalidatePath("/admin");

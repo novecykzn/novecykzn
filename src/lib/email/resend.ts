@@ -57,7 +57,8 @@ export async function sendApplicantConfirmation(email: string, name: string) {
 export async function sendApprovalInvite(payload: {
   email: string;
   name: string;
-  inviteLink: string;
+  password: string;
+  loginUrl: string;
 }) {
   const resend = client();
   if (!resend) return { skipped: true as const };
@@ -68,8 +69,10 @@ export async function sendApprovalInvite(payload: {
     html: `
       <p>Dear ${escapeHtml(payload.name)},</p>
       <p>Your application has been approved. You can sign in to place orders:</p>
-      <p><a href="${payload.inviteLink}">${escapeHtml(payload.inviteLink)}</a></p>
-      <p>If the link expires, use &quot;Forgot password&quot; on the login page with this email address.</p>
+      <p><strong>Username:</strong> ${escapeHtml(payload.email)} (your email address)</p>
+      <p><strong>Password:</strong> ${escapeHtml(payload.password)}</p>
+      <p><a href="${escapeHtml(payload.loginUrl)}">Sign in here</a></p>
+      <p>We recommend changing your password after your first login.</p>
     `,
   });
   return { ok: true as const };
