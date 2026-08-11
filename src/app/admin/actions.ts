@@ -43,9 +43,10 @@ export async function approveApplication(
     .eq("email", email)
     .maybeSingle();
 
-  if (existingProfile?.id) {
-    userId = existingProfile.id;
-    const { error: updErr } = await admin.auth.admin.updateUserById(userId, {
+  const existingId = existingProfile?.id ?? null;
+  if (existingId) {
+    userId = existingId;
+    const { error: updErr } = await admin.auth.admin.updateUserById(existingId, {
       password,
       email_confirm: true,
       user_metadata: { full_name: app.full_name },
@@ -67,9 +68,10 @@ export async function approveApplication(
         .select("id")
         .eq("email", email)
         .maybeSingle();
-      if (again?.id) {
-        userId = again.id;
-        const { error: updErr } = await admin.auth.admin.updateUserById(userId, {
+      const againId = again?.id ?? null;
+      if (againId) {
+        userId = againId;
+        const { error: updErr } = await admin.auth.admin.updateUserById(againId, {
           password,
           email_confirm: true,
           user_metadata: { full_name: app.full_name },
