@@ -237,6 +237,7 @@ export async function updateEftPaymentStatus(
     .eq("id", orderId);
 
   revalidatePath("/admin/orders");
+  revalidatePath(`/admin/orders/${orderId}`);
   revalidatePath("/portal/orders");
   return { ok: true as const };
 }
@@ -291,5 +292,6 @@ export async function markOrderPacked(formData: FormData) {
   }
 
   revalidatePath("/admin/orders");
+  revalidatePath(`/admin/orders/${orderId}`);
   revalidatePath("/portal/orders");
 }
