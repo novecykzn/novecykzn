@@ -2,8 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
+import { signInWithEmail } from "./actions";
 
 export function LoginForm({
   nextPath,
@@ -26,32 +26,13 @@ export function LoginForm({
     setMessage(null);
 
     try {
-      const supabase = createClient();
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-      if (error) {
-        setMessage(error.message);
+      const result = await signInWithEmail(email, password, nextPath);
+      if ("error" in result) {
+        setMessage(result.error);
         return;
       }
-
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("role")
-        .eq("id", data.user.id)
-        .maybeSingle();
-
       router.refresh();
-
-      const destination =
-        nextPath?.startsWith("/")
-          ? nextPath
-          : profile?.role === "admin"
-            ? "/admin"
-            : profile?.role === "provider"
-              ? "/portal"
-              : "/pending";
-
-      router.push(destination);
+      router.push(result.destination);
     } catch (err) {
       setMessage(err instanceof Error ? err.message : "Sign-in failed. Please try again.");
     } finally {
