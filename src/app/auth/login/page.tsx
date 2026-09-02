@@ -2,6 +2,8 @@ import Link from "next/link";
 import { BrandWordmark } from "@/components/brand-wordmark";
 import { LoginPageClient } from "./login-page-client";
 
+export const dynamic = "force-dynamic";
+
 export default async function LoginPage({
   searchParams,
 }: {
