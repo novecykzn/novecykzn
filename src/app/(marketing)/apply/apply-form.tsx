@@ -41,7 +41,11 @@ export function ApplyForm() {
   }
 
   return (
-    <form action={formAction} className="space-y-6 rounded-2xl border border-[#e0dedf] bg-white p-6 shadow-sm sm:p-8">
+    <form
+      action={formAction}
+      encType="multipart/form-data"
+      className="space-y-6 rounded-2xl border border-[#e0dedf] bg-white p-6 shadow-sm sm:p-8"
+    >
       <div className="grid gap-6 sm:grid-cols-2">
         <Field
           label="Full name"
