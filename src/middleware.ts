@@ -34,7 +34,10 @@ export async function middleware(request: NextRequest) {
       },
     });
 
-    await supabase.auth.getUser();
+    // Read session from cookies locally — avoid network calls that can exceed
+    // Vercel's middleware execution limit (MIDDLEWARE_INVOCATION_TIMEOUT).
+    // Auth is enforced in server layouts via requireAdmin/requireProvider.
+    await supabase.auth.getSession();
   } catch {
     return NextResponse.next({ request });
   }
@@ -43,7 +46,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|mp4|mov|m4v)$).*)",
-  ],
+  matcher: ["/admin/:path*", "/portal/:path*", "/auth/:path*", "/api/:path*"],
 };
