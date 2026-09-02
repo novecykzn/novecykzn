@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { signInWithEmail } from "./actions";
+import { requestPasswordReset } from "./reset-actions";
 
 export function LoginForm({
   nextPath,
@@ -17,13 +18,16 @@ export function LoginForm({
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [resetLoading, setResetLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (disabled || !isSupabaseConfigured()) return;
     setLoading(true);
     setMessage(null);
+    setNotice(null);
 
     try {
       const result = await signInWithEmail(email, password, nextPath);
@@ -37,6 +41,29 @@ export function LoginForm({
       setMessage(err instanceof Error ? err.message : "Sign-in failed. Please try again.");
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function onForgotPassword() {
+    if (disabled || !isSupabaseConfigured()) return;
+    if (!email.trim()) {
+      setMessage("Enter your email above, then click Forgot password.");
+      return;
+    }
+    setResetLoading(true);
+    setMessage(null);
+    setNotice(null);
+    try {
+      const result = await requestPasswordReset(email);
+      if ("error" in result) {
+        setMessage(result.error);
+        return;
+      }
+      setNotice("If that email exists, a reset link was sent. Check your inbox.");
+    } catch (err) {
+      setMessage(err instanceof Error ? err.message : "Could not send reset email.");
+    } finally {
+      setResetLoading(false);
     }
   }
 
@@ -77,6 +104,11 @@ export function LoginForm({
           </button>
         </div>
       </div>
+      {notice ? (
+        <p className="text-sm text-[#166534]" role="status">
+          {notice}
+        </p>
+      ) : null}
       {message ? (
         <p className="text-sm text-red-600" role="alert">
           {message}
@@ -88,6 +120,14 @@ export function LoginForm({
         className="w-full rounded-full bg-[#00a4e4] py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#0090c8] disabled:opacity-60"
       >
         {loading ? "Signing in…" : "Sign in"}
+      </button>
+      <button
+        type="button"
+        disabled={resetLoading || disabled}
+        onClick={onForgotPassword}
+        className="w-full text-sm font-medium text-[#00a4e4] hover:underline disabled:opacity-60"
+      >
+        {resetLoading ? "Sending reset link…" : "Forgot password?"}
       </button>
     </form>
   );
