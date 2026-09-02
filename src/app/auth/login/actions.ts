@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { getPostLoginDestination } from "@/lib/auth/destination";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 
 export async function signInWithEmail(
@@ -37,24 +38,6 @@ export async function signInWithEmail(
     return { error: error.message };
   }
 
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("role")
-    .eq("id", data.user.id)
-    .maybeSingle();
-
-  if (profileError) {
-    return { error: profileError.message };
-  }
-
-  const destination =
-    nextPath?.startsWith("/")
-      ? nextPath
-      : profile?.role === "admin"
-        ? "/admin"
-        : profile?.role === "provider"
-          ? "/portal"
-          : "/pending";
-
+  const destination = await getPostLoginDestination(data.user.id, nextPath);
   return { destination };
 }
