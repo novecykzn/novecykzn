@@ -3,8 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { signInWithEmail } from "./actions";
-import { requestPasswordReset } from "./reset-actions";
 
 export function LoginForm({
   nextPath,
@@ -30,13 +28,20 @@ export function LoginForm({
     setNotice(null);
 
     try {
-      const result = await signInWithEmail(email, password, nextPath);
-      if ("error" in result) {
-        setMessage(result.error);
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, nextPath }),
+      });
+      const result = (await response.json()) as { error?: string; destination?: string };
+      if (!response.ok || result.error) {
+        setMessage(result.error ?? "Sign-in failed. Please try again.");
         return;
       }
-      router.refresh();
-      router.push(result.destination);
+      if (result.destination) {
+        router.refresh();
+        router.push(result.destination);
+      }
     } catch (err) {
       setMessage(err instanceof Error ? err.message : "Sign-in failed. Please try again.");
     } finally {
@@ -54,9 +59,14 @@ export function LoginForm({
     setMessage(null);
     setNotice(null);
     try {
-      const result = await requestPasswordReset(email);
-      if ("error" in result) {
-        setMessage(result.error);
+      const response = await fetch("/api/auth/reset-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const result = (await response.json()) as { error?: string; ok?: boolean };
+      if (!response.ok || result.error) {
+        setMessage(result.error ?? "Could not send reset email.");
         return;
       }
       setNotice("If that email exists, a reset link was sent. Check your inbox.");
@@ -130,14 +140,6 @@ export function LoginForm({
         className="w-full rounded-full bg-[#00a4e4] py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#0090c8] disabled:opacity-60"
       >
         {loading ? "Signing in…" : "Sign in"}
-      </button>
-      <button
-        type="button"
-        disabled={resetLoading || disabled}
-        onClick={onForgotPassword}
-        className="w-full text-sm font-medium text-[#00a4e4] hover:underline disabled:opacity-60"
-      >
-        {resetLoading ? "Sending reset link…" : "Forgot password?"}
       </button>
     </form>
   );
