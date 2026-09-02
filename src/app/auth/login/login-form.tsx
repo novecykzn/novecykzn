@@ -82,7 +82,17 @@ export function LoginForm({
         />
       </div>
       <div>
-        <label className="block text-xs font-medium text-[#6d6e71]">Password</label>
+        <div className="flex items-center justify-between gap-3">
+          <label className="block text-xs font-medium text-[#6d6e71]">Password</label>
+          <button
+            type="button"
+            disabled={resetLoading || disabled}
+            onClick={onForgotPassword}
+            className="text-xs font-medium text-[#00a4e4] hover:underline disabled:opacity-60"
+          >
+            {resetLoading ? "Sending…" : "Forgot password?"}
+          </button>
+        </div>
         <div className="relative mt-1">
           <input
             type={showPassword ? "text" : "password"}
